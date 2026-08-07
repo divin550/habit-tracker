@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habit Tracker</title>
+  <meta name="theme-color" content="#764ba2">
+  <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="habit.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+  </style>
+</head>
+
+<body class="min-h-screen p-3 md:p-6">
+  <!-- animated background elements -->
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+  <div class="floating-element"></div>
+  <!-- install button -->
+  <button id="installBtn" class="install-btn">
+    <i class="fas fa-download"></i>
+  </button>
+
+  <!-- Overlay for modals -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- add habit model -->
+  <div class="modal" id="add-habit-modal">
+    <h2 class="text-xl font-bold mb-4">Add New Habit</h2>
+    <input type="text" id="habit-name" placeholder="Habit name" class="modal-input">
+    <textarea id="habit-desc" placeholder="Habit description (optional)" rows="2" class="modal-input"></textarea>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn save" onclick="saveHabit()">Save</button>
+    </div>
+  </div>
+
+  <!-- Notification Settings Panel -->
+  <div class="settings-panel" id="notification-settings">
+    <h2 class="text-xl font-bold mb-4">Notification Settings</h2>
+    <div class="mb-4">
+      <label class="flex items-center justify-between">
+        <span>Enable Notifications</span>
+        <label class="switch">
+          <input type="checkbox" id="notification-toggle">
+          <span class="slider"></span>
+        </label>
+      </label>
+    </div>
+
+    <div id="notification-options" class="space-y-4 opacity-50 pointer-events-none">
+      <div>
+        <label class="block text-sm font-medium mb-1">Notification Time</label>
+        <input type="time" id="notification-time" class="w-full p-2 border rounded" value="09:00">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Which habits to remind?</label>
+        <div id="habits-selection" class="space-y-2">
+          <!-- Will be populated with habits -->
+        </div>
+
+      </div>
+    </div>
+    <div class="flex justify-end mt-6 space-x-3">
+      <button class="px-4 py-2 border rounded" onclick="closeSettings()">Cancel</button>
+      <button class="px-4 py-2 bg-blue-500 text-white rounded" onclick="saveNotificationSettings()">Save</button>
+    </div>
+  </div>
+
+  <!-- Analytics Panel -->
+  <div class="analytics-panel" id="analytics-panel">
+    <h2 class="text-xl font-bold mb-4" id="analytics-title">Habit Analytics</h2>
+    <div class="chart-container">
+      <canvas id="analytics-chart"></canvas>
+    </div>
+    <div class="flex justify-end mt-4">
+      <button class="px-4 py-2 bg-blue-500 text-white rounded" onclick="closeAnalytics()">Close</button>
+    </div>
+  </div>
+
+  <!-- Notification Bell -->
+  <div class="notification-bell" onclick="openSettings()">
+    <i class="fas fa-bell"></i>
+  </div>
+  <div class="max-w-4xl mx-auto container-glass">
+    <div class="flex justify-end mb-4">
+      <button id="logout-btn" class="px-3 py-2  text-white" onclick="logout()"
+        style="background: linear-gradient(to right, #609af7, #8183f7); border-radius: 10px;">Logout</button>
+    </div>
+    <h1 class="text-4xl font-bold mb-2 text-center header-title">🌱 HabitO</h1>
+    <p class="header-para text-center mb-6 text-opacity-90">Track your daily habits and build a better routine</p>
+
+    <!-- Week Navigation -->
+    <div class="week-navigation">
+      <button id="prev-week" class="nav-btn">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <h2 id="week-range" class="text-lg font-semibold">Loading...</h2>
+      <button id="next-week" class="nav-btn">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Habit List -->
+    <div id="habits-container" class="space-y-4"></div>
+
+    <div class="mt-6 text-center">
+      <button id="add-habit-btn" class="add-btn">
+        <i class="fas fa-plus mr-2"></i> Add New Habit
+      </button>
+    </div>
+
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Crafted with <span class="footer-heart">❤️</span> by Ahsan Qadir</p>
+  </footer>
+
+  <script src="auth.js"></script>
+ <script src="habit.js"></script>
+
+
+
+</body>
+
+</html>
